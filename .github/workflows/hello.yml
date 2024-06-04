@@ -8,7 +8,7 @@ jobs:
         steps:
             - run: echo "Hello, World!" # shell command
             - uses: actions/checkout@v4 # action (module)
-            with:
+              with:
                 ref: ${{ env.BRANCH }}
     print:
         runs-on: ubuntu-latest
