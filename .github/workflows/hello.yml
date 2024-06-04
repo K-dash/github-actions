@@ -3,9 +3,13 @@ on: push
 jobs:
     hello:  # job id
         runs-on: ubuntu-latest  # runner
+        env:
+            BRANCH: main
         steps:
             - run: echo "Hello, World!" # shell command
             - uses: actions/checkout@v4 # action (module)
+            with:
+                ref: ${{ env.BRANCH }}
     print:
         runs-on: ubuntu-latest
         steps:
