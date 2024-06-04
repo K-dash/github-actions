@@ -1,15 +1,26 @@
 name: Hello
+run-name: ${{ github.actor }}
 on: push
 jobs:
     hello:  # job id
+        name: echo Hello World
         runs-on: ubuntu-latest  # runner
         env:
             BRANCH: main
         steps:
-            - run: echo "Hello, World!" # shell command
-            - uses: actions/checkout@v4 # action (module)
+            - id: source
+              run: echo "result=Hello" >> "${GITHUB_OUTPUTS}"
+            - name: execute a shell command
+              run: echo "Hello, World!" # shell command
+            - name: print GITHUB_OUTPUTS  # GITHUB_OUTPUTSで環境変数の受け渡し
+              env:
+                RESULT: ${{ steps.source.outputs.result }}
+              run: echo "${RESULT}"
+            - name: set env
+              uses: actions/checkout@v4 # action (module)
               with:
                 ref: ${{ env.BRANCH }}
+
     print:
         runs-on: ubuntu-latest
         env:
@@ -18,9 +29,22 @@ jobs:
             USERNAME: ${{ vars.USERNAME }}  # ref variables
             PASSWORD: ${{ secrets.PASSWORD }}
         steps:
-            - run: |
+            - name: print env
+              run: |
                 echo "${ACTOR}"
                 echo "${RUN_ID}"
                 echo "${USERNAME}"
                 echo "${PASSWORD}"
                 echo "${PASSWORD:0:1} ${PASSWORD}"
+              if: ${{ contains(github.run_id, '1') }}
+
+    comment:
+        runs-on: ubuntu-latest
+        permissions:
+            pull-requests: write
+            contents: read
+        steps:
+            - uses: actions/checkout@v4
+            - run: gh pr comment "${GITHUB_HEAD_REF}" --body "Hello, ${GITHUB_ACTOR}!"
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
