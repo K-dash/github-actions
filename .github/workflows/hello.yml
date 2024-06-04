@@ -1,6 +1,6 @@
 name: Hello
 run-name: ${{ github.actor }}
-on: push
+on: pull_request
 jobs:
     hello:  # job id
         name: echo Hello World
@@ -9,13 +9,13 @@ jobs:
             BRANCH: main
         steps:
             - id: source
+              name: print GITHUB_OUTPUTS  # GITHUB_OUTPUTSで環境変数の受け渡し
               run: echo "result=Hello" >> "${GITHUB_OUTPUTS}"
-            - name: execute a shell command
-              run: echo "Hello, World!" # shell command
-            - name: print GITHUB_OUTPUTS  # GITHUB_OUTPUTSで環境変数の受け渡し
-              env:
+            - env:
                 RESULT: ${{ steps.source.outputs.result }}
               run: echo "${RESULT}"
+            - name: execute a shell command
+              run: echo "Hello, World!" # shell command
             - name: set env
               uses: actions/checkout@v4 # action (module)
               with:
