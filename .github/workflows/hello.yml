@@ -10,6 +10,5 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - run: |
-                "${{ github.actor}}"
+                "${{ github.actor }}"
                 "${{ github.run_id }}"
-                "${{ github.event }}"
