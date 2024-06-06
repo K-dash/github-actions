@@ -6,9 +6,11 @@ on:
 
 defaults:
     run:
+        # コマンドを実行する場合、デフォルトのシェル指定は必ず明示的にすべき
         shell: bash # default shell
 
 concurrency:
+    # 同じpull-requestの同じworkflowが複数起動した場合、古いワークフローをキャンセルできる
     group: ${{ github.workflow }}-${{ github.head_ref }}
     cancel-in-progress: true
 
