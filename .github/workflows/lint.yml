@@ -1,0 +1,24 @@
+name: Static analysis for GitHub workflows
+
+on:
+    pull_request:
+        paths: ['.github/workflows/*.yml', '.github/workflows/*.yaml']
+
+defaults:
+    run:
+        # コマンドを実行する場合、デフォルトのシェル指定は必ず明示的にすべき
+        shell: bash # default shell
+
+concurrency:
+    # 同じpull-requestの同じworkflowが複数起動した場合、古いワークフローをキャンセルできる
+    group: ${{ github.workflow }}-${{ github.head_ref }}
+    cancel-in-progress: true
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@v4
+            - run: |
+                docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:latest
