@@ -38,6 +38,7 @@ jobs:
                 echo "${PASSWORD:0:1} ${PASSWORD}"
               if: ${{ contains(github.run_id, '1') }}
 
+    # comment to PR
     comment:
         runs-on: ubuntu-latest
         permissions:
