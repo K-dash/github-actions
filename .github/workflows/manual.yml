@@ -1,6 +1,6 @@
 name: Manual
 on:
-    workflow_dispatch:
+    workflow_dispatch:      # manual execution
         inputs:
             greeting:
                 type: string
