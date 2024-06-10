@@ -19,4 +19,4 @@ jobs:
               with:
                 name: uploaded
                 path: downloaded
-            - run: cat date.txt
+            - run: cat downloaded/date.txt
