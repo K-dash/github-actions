@@ -6,7 +6,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=UTC
 
-# Update
+# apt-get Update
 RUN apt-get update
 
 # Install required packages
