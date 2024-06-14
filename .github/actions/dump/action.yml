@@ -11,7 +11,7 @@ inputs:
 
 outputs:
   dumped-date:
-    value: ${{ steps.current.outputs.data }}
+    value: ${{ steps.current.outputs.date }}
     description: ダンプ日時
 
 runs:
